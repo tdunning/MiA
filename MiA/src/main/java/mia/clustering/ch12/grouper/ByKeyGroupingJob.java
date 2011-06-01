@@ -39,7 +39,7 @@ public class ByKeyGroupingJob {
     Path outPath = new Path(params.get("output"));
     FileOutputFormat.setOutputPath(job, outPath);
     
-    HadoopUtil.overwriteOutput(outPath);
+    HadoopUtil.delete(conf, outPath);
     
     job.setInputFormatClass(TextInputFormat.class);
     job.setMapperClass(ByKeyMapper.class);

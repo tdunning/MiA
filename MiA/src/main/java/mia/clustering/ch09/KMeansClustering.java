@@ -35,7 +35,7 @@ public class KMeansClustering {
     }
     System.out.println(points.size());
     reader.close();
-    List<Vector> randomPoints = RandomSeedGenerator.chooseRandomPoints(points, k);
+    List<Vector> randomPoints = RandomPointsUtil.chooseRandomPoints(points, k);
     List<Cluster> clusters = new ArrayList<Cluster>();
     System.out.println(randomPoints.size());
     int clusterId = 0;

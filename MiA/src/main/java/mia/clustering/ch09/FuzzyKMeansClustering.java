@@ -10,7 +10,6 @@ import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansClusterer;
 import org.apache.mahout.clustering.fuzzykmeans.SoftCluster;
-import org.apache.mahout.clustering.kmeans.RandomSeedGenerator;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
@@ -36,7 +35,7 @@ public class FuzzyKMeansClustering {
     }
     System.out.println(points.size());
     reader.close();
-    List<Vector> randomPoints = RandomSeedGenerator.chooseRandomPoints(points, k);
+    List<Vector> randomPoints = RandomPointsUtil.chooseRandomPoints(points, k);
     List<SoftCluster> clusters = new ArrayList<SoftCluster>();
     System.out.println(randomPoints.size());
     int clusterId = 0;

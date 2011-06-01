@@ -1,6 +1,7 @@
 package mia.clustering.ch12.grouper;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.hadoop.io.LongWritable;
@@ -39,12 +40,12 @@ public class ByKeyMapper extends Mapper<LongWritable,Text,Text,Text> {
   protected void setup(Context context) throws IOException,
                                        InterruptedException {
     super.setup(context);
-    Parameters params = Parameters.fromString(context
+    Map<String,String> params = Parameters.parseParams(context
         .getConfiguration().get("job.parameters", ""));
-    splitter = Pattern.compile(params.get("splitPattern", "\t"));
+    splitter = Pattern.compile(params.get("splitPattern"));
     
-    selectedField = Integer.valueOf(params.get("selectedField", "1"));
-    groupByField = Integer.valueOf(params.get("groupByField", "1"));
+    selectedField = Integer.valueOf(params.get("selectedField"));
+    groupByField = Integer.valueOf(params.get("groupByField"));
     log.info("Using: {} {} {} ", new Object[] {groupByField,
                                                splitter,
                                                selectedField});

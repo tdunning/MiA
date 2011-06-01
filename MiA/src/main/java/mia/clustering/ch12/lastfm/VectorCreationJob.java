@@ -65,7 +65,7 @@ public class VectorCreationJob {
     FileInputFormat.addInputPath(job, input);
     FileOutputFormat.setOutputPath(job, output);
     
-    HadoopUtil.overwriteOutput(output);
+    HadoopUtil.delete(conf, output);
     
     job.setInputFormatClass(TextInputFormat.class);
     job.setMapperClass(VectorMapper.class);
@@ -91,7 +91,7 @@ public class VectorCreationJob {
     FileInputFormat.addInputPath(job, input);
     FileOutputFormat.setOutputPath(job, output);
     
-    HadoopUtil.overwriteOutput(output);
+    HadoopUtil.delete(conf, output);
     
     job.setInputFormatClass(TextInputFormat.class);
     job.setMapperClass(DictionaryMapper.class);

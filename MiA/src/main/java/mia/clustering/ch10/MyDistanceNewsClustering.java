@@ -45,26 +45,26 @@ public class MyDistanceNewsClustering {
      */
 
     String outputDir = "myDistanceNewsClusters";
-    HadoopUtil.overwriteOutput(new Path(outputDir));
+    HadoopUtil.delete(conf, new Path(outputDir));
     Path tokenizedPath = new Path(outputDir
                            ,DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
     DefaultAnalyzer analyzer = new DefaultAnalyzer();
     DocumentProcessor.tokenizeDocuments(new Path(inputDir), analyzer
-        .getClass().asSubclass(Analyzer.class), tokenizedPath);
+        .getClass().asSubclass(Analyzer.class), tokenizedPath, conf);
     
     DictionaryVectorizer.createTermFrequencyVectors(tokenizedPath,
       new Path(outputDir), conf, minSupport, maxNGramSize, minLLRValue, 2, true, reduceTasks,
       chunkSize, sequentialAccessOutput, false);
     TFIDFConverter.processTfIdf(
       new Path(outputDir , DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
-      new Path(outputDir), chunkSize, minDf,
+      new Path(outputDir), conf, chunkSize, minDf,
       maxDFPercent, norm, true, sequentialAccessOutput, false, reduceTasks);
     
     Path vectorsFolder = new Path(outputDir, "tfidf-vectors");
     Path centroids = new Path(outputDir, "centroids");
     Path clusterOutput = new Path(outputDir, "clusters");
     
-    RandomSeedGenerator.buildRandom(vectorsFolder, centroids, 20,
+    RandomSeedGenerator.buildRandom(conf, vectorsFolder, centroids, 20,
       new CosineDistanceMeasure());
     KMeansDriver.run(conf, vectorsFolder, centroids, clusterOutput,
       new MyDistanceMeasure(), 0.01, 20, true, false);

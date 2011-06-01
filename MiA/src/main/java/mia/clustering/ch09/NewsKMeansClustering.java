@@ -42,19 +42,19 @@ public class NewsKMeansClustering {
      */
 
     String outputDir = "newsClusters";
-    HadoopUtil.overwriteOutput(new Path(outputDir));
+    HadoopUtil.delete(conf, new Path(outputDir));
     Path tokenizedPath = new Path(outputDir,
         DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
     MyAnalyzer analyzer = new MyAnalyzer();
     DocumentProcessor.tokenizeDocuments(new Path(inputDir), analyzer.getClass()
-        .asSubclass(Analyzer.class), tokenizedPath);
+        .asSubclass(Analyzer.class), tokenizedPath, conf);
     
     DictionaryVectorizer.createTermFrequencyVectors(tokenizedPath,
       new Path(outputDir), conf, minSupport, maxNGramSize, minLLRValue, 2, true, reduceTasks,
       chunkSize, sequentialAccessOutput, false);
     TFIDFConverter.processTfIdf(
       new Path(outputDir , DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
-      new Path(outputDir), chunkSize, minDf,
+      new Path(outputDir), conf, chunkSize, minDf,
       maxDFPercent, norm, true, sequentialAccessOutput, false, reduceTasks);
     Path vectorsFolder = new Path(outputDir, "tfidf-vectors");
     Path canopyCentroids = new Path(outputDir , "canopy-centroids");
