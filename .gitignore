@@ -1,0 +1,6 @@
+/MiA/target/
+*~
+/MiA/.classpath
+/MiA/.project
+/MiA/.settings/org.eclipse.jdt.core.prefs
+/MiA/.settings/org.maven.ide.eclipse.prefs

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <artifactId>mia</artifactId>
+  <groupId>com.manning</groupId>
+  <name>Mahout in Action Examples</name>
+  <version>0.1</version>
+  <description>Examples for Mahout in Action book</description>
+  <packaging>jar</packaging>
+<!-- TODO: add licensing, contact information, etc. -->
+
+  <properties>
+    <mahout.version>0.5</mahout.version>
+    <mahout.groupid>org.apache.mahout</mahout.groupid>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <encoding>UTF-8</encoding>
+          <source>1.6</source>
+          <target>1.6</target>
+          <optimize>true</optimize>
+        </configuration>
+      </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>2.4.3</version>
+          <configuration>
+            <encoding>UTF-8</encoding>
+          </configuration>
+        </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>${mahout.groupid}</groupId>
+      <artifactId>mahout-core</artifactId>
+      <version>${mahout.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${mahout.groupid}</groupId>
+      <artifactId>mahout-core</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+      <version>${mahout.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${mahout.groupid}</groupId>
+      <artifactId>mahout-math</artifactId>
+      <version>${mahout.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${mahout.groupid}</groupId>
+      <artifactId>mahout-math</artifactId>
+      <type>test-jar</type>
+      <scope>test</scope>
+      <version>${mahout.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${mahout.groupid}</groupId>
+      <artifactId>mahout-utils</artifactId>
+      <version>${mahout.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>${mahout.groupid}</groupId>
+      <artifactId>mahout-examples</artifactId>
+      <version>${mahout.version}</version>
+    </dependency>
+
+<!--    <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-benchmark</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.lucene</groupId>
+        <artifactId>lucene-analyzers</artifactId>
+     </dependency>
+
+    <dependency>
+      <groupId>org.uncommons.watchmaker</groupId>
+      <artifactId>watchmaker-framework</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.uncommons.watchmaker</groupId>
+      <artifactId>watchmaker-swing</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>jfree</groupId>
+          <artifactId>jfreechart</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jcl</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>net.java.dev.jets3t</groupId>
+      <artifactId>jets3t</artifactId>
+    </dependency> -->
+
+  </dependencies>
+
+</project>
