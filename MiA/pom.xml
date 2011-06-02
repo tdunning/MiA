@@ -15,11 +15,37 @@
     <mahout.groupid>org.apache.mahout</mahout.groupid>
   </properties>
 
+  <url>http://www.manning.com/owen/</url>
+  <scm>
+  	<url>https://github.com/tdunning/MiA</url>
+  </scm>
+  <organization>
+  	<name>Manning</name>
+  	<url>http://www.manning.com</url>
+  </organization>
+
+  <repositories>
+    <repository>
+      <id>apache-releases</id>
+      <url>http://repository.apache.org/content/repositories/releases/</url>
+      <releases>
+        <enabled>true</enabled>
+        <updatePolicy>daily</updatePolicy>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+        <updatePolicy>daily</updatePolicy>
+      </snapshots>
+    </repository>
+  </repositories>
+  
+  
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.3.2</version>
         <configuration>
           <encoding>UTF-8</encoding>
           <source>1.6</source>
@@ -78,6 +104,11 @@
       <artifactId>mahout-examples</artifactId>
       <version>${mahout.version}</version>
     </dependency>
+<!-- <dependency>
+      <groupId>${mahout.groupid}</groupId>
+      <artifactId>mahout-taste-webapp</artifactId>
+      <version>${mahout.version}</version>
+    </dependency> -->
 
 <!--    <dependency>
         <groupId>org.apache.lucene</groupId>
