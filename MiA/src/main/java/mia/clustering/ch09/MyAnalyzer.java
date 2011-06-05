@@ -1,3 +1,8 @@
+/*
+ * Source code for Listing 9.5
+ * 
+ */
+
 package mia.clustering.ch09;
 
 import java.io.IOException;

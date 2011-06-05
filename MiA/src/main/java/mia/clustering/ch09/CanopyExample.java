@@ -12,7 +12,7 @@ import org.apache.mahout.clustering.canopy.CanopyClusterer;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
 import org.apache.mahout.math.Vector;
 
-public class CanopyInMemory {
+public class CanopyExample {
 
 	public static void main(String[] args) {
 		List<Vector> sampleData = new ArrayList<Vector>();

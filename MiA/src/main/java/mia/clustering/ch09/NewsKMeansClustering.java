@@ -1,3 +1,8 @@
+/*
+ * Source code for Listing 9.4
+ * 
+ */
+
 package mia.clustering.ch09;
 
 import org.apache.hadoop.conf.Configuration;

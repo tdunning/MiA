@@ -12,7 +12,7 @@ import org.apache.mahout.clustering.kmeans.KMeansClusterer;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
 import org.apache.mahout.math.Vector;
 
-public class KMeansInMemory {
+public class KMeansExample {
 
 	public static void main(String[] args) {
 		List<Vector> sampleData = new ArrayList<Vector>();
