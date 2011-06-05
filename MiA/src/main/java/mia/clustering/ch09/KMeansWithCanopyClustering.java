@@ -20,7 +20,7 @@ public class KMeansWithCanopyClustering {
   
   public static void main(String args[]) throws Exception {
     
-    String inputDir = "reuters";
+    String inputDir = "reuters-vectors";
     
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);

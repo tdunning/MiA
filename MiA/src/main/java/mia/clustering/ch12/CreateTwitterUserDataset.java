@@ -1,7 +1,5 @@
 package mia.clustering.ch12;
 
-import mia.clustering.ch12.grouper.ByKeyGroupingJob;
-
 import org.apache.commons.codec.language.DoubleMetaphone;
 import org.apache.mahout.common.Parameters;
 
