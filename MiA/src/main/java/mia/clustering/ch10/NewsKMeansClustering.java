@@ -1,3 +1,7 @@
+/*
+ * Source Code for Listing 10.5
+ * 
+ */
 package mia.clustering.ch10;
 
 import java.io.File;
@@ -30,18 +34,10 @@ public class NewsKMeansClustering {
     int norm = -1;
     boolean sequentialAccessOutput = true;
     
-    String inputDir = "kmeans-seqfiles";
+    String inputDir = "reuters-seqfiles";
     File inputDirFile = new File(inputDir);
-    if (!inputDirFile.exists()) {
-      // inputDirFile.mkdir();
-    }
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);
-    /*
-     * SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, new Path(inputDir, "documents.seq"),
-     * Text.class, Text.class); for (Document d : Database) { writer.append(new Text(d.getID()), new
-     * Text(d.contents())); } writer.close();
-     */
 
     String outputDir = "newsClusters";
     HadoopUtil.delete(conf, new Path(outputDir));

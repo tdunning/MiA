@@ -1,3 +1,7 @@
+/*
+ * Source Code for Listing 10.6
+ * 
+ */
 package mia.clustering.ch10;
 
 import java.util.Collection;

@@ -16,7 +16,7 @@ public class InterClusterDistances {
   
   public static void main(String args[]) throws Exception {
     
-    String inputFile = "mia/newsClusters/clusters/clusters-5/part-00000";
+    String inputFile = "reuters-kmeans-clusters/clusters-6/part-r-00000";
     
     Configuration conf = new Configuration();
     Path path = new Path(inputFile);
