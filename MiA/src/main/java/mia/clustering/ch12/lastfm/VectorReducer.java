@@ -24,8 +24,7 @@ public class VectorReducer extends
       }
       partialVector.get().addTo(vector);
     }
-    NamedVector namedVector = new NamedVector(vector, tag
-        .toString());
+    NamedVector namedVector = new NamedVector(vector, tag.toString());
     writer.set(namedVector);
     context.write(tag, writer);
   }
