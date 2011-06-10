@@ -18,6 +18,7 @@ import org.apache.lucene.util.Version;
 
 public class MyAnalyzer extends Analyzer {
   
+  @SuppressWarnings("deprecation")
   @Override
   public TokenStream tokenStream(String fieldName, Reader reader) {
     TokenStream result = new StandardTokenizer(

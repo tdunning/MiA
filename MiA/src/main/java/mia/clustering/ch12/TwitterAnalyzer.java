@@ -15,6 +15,7 @@ import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.analysis.tokenattributes.TermAttribute;
 import org.apache.lucene.util.Version;
 
+@SuppressWarnings("deprecation")
 public class TwitterAnalyzer extends Analyzer {
   private DoubleMetaphone filter = new DoubleMetaphone();
   
