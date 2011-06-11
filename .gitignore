@@ -20,3 +20,10 @@
 /MiA/testdata/points/file1
 /MiA/src/main/resources/gender.dat
 /MiA/src/main/resources/ratings.dat
+/Chapter-16/target/
+/Chapter-16/.classpath
+/Chapter-16/.project
+/Chapter-16/.settings/org.eclipse.jdt.core.prefs
+/Chapter-16/.settings/org.maven.ide.eclipse.prefs
+/Chapter-16/20news-bydate-test/
+/Chapter-16/20news-bydate-train/
