@@ -1,3 +1,7 @@
+/*
+ * Source code for listing 5.6
+ * 
+ */
 package mia.recommender.ch05;
 
 import java.io.IOException;
