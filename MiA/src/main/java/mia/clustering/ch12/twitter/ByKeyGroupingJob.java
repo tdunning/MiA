@@ -1,4 +1,4 @@
-package mia.clustering.ch12.grouper;
+package mia.clustering.ch12.twitter;
 
 import java.io.IOException;
 

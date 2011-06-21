@@ -1,4 +1,8 @@
-package mia.clustering.ch12.grouper;
+/*
+ * Source code for Listing 12.2
+ * 
+ */
+package mia.clustering.ch12.twitter;
 
 import java.io.IOException;
 import java.util.Map;
@@ -18,9 +22,9 @@ public class ByKeyMapper extends Mapper<LongWritable,Text,Text,Text> {
   
   private Pattern splitter;
   
-  private int selectedField;
+  private int selectedField; // text of tweet
   
-  private int groupByField;
+  private int groupByField; // username
   
   @Override
   protected void map(LongWritable key, Text value, Context context) throws IOException,
