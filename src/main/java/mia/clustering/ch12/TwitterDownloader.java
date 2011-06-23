@@ -30,8 +30,10 @@ public class TwitterDownloader {
     	}
     	
         public void onStatus(Status status) {
-            out.println(status.getUser().getId() + "\t" + status.getText());
-            System.out.println(status.getUser().getId() + "\t" + status.getText());
+        	String username = status.getUser().getScreenName();
+        	String text = status.getText().replace('\n', ' ');
+            out.println(username + "\t" + text);
+            System.out.println(username + "\t" + text);
             count++;
             if(count >= maxCount) {
             	tweetStream.shutdown();

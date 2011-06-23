@@ -2,8 +2,7 @@
 *~
 /.classpath
 /.project
-/.settings/org.eclipse.jdt.core.prefs
-/.settings/org.maven.ide.eclipse.prefs
+/.settings/
 /appledata/
 /output/
 /testdata/
@@ -14,3 +13,4 @@
 /twitter_seqfiles/
 /tweets.txt
 
+/.settings/org.eclipse.core.resources.prefs
