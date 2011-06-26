@@ -4,14 +4,19 @@ Source code for 'Mahout in Action' book
 # Installation #
 
 To work with source code you need to have [Apache Maven](http://maven.apache.org/)
-installed (if you use Linux, it's better to install it from repository).
-
-Use of IDE with Maven support (Eclipse, Netbeans, IntelliJ IDEA) is encouraged.
+installed (if you use Linux, it's better to install it from repository).  Use of IDE with
+Maven support (Eclipse, Netbeans, IntelliJ IDEA) is encouraged.
 
 After you'll get source code of examples, you need to compile it using `mvn package`
 command, staying in the `MiA` directory.  This command will fetch all necessary
-dependencies, compile, and package everything you'll need for work.  Compiled jars are
-stored in the `target` directory.  There are several files created: 
+dependencies, compile, and package everything you'll need for work.  To correctly compile
+examples from chapter 16, you need to have [Apache Thrift](http://thrift.apache.org/)
+installed.  On Linux it will searched in the `/usr/local/bin/thrift`, while on Mac OS X
+you can use macports to install it, and it will placed into `/opt/local/bin/thrift`.  If
+`thrift` binary is located in another place, then change location in Maven's profile with
+name `profile-buildthrift-linux`.
+
+Compiled jars are stored in the `target` directory.  There are several files created:
  * `mia-0.1.jar` contains only code for examples;
  * `mia-0.1-jar-with-dependencies.jar` contains examples plus all dependencies;
  * `mia-0.1-job.jar` contains examples plus all dependencies, excluding Hadoop -- it
@@ -33,6 +38,9 @@ to run `IREvaluatorIntro` example from chapter 2, you can use following command:
 
     mvn exec:java -Dexec.mainClass="mia.recommender.ch02.IREvaluatorIntro" -Dexec.args="src"
 
+If you'll use mahout with non-ASCII data, then don't forget to specify
+`-Dfile.encoding=UTF-8` (or other encoding), so Java will use correct encoding for
+input/output.
 
 # Examples for Chapter 16 #
 

@@ -57,11 +57,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * Basic classification server.  This server watches a Zookeeper cluster to determine what models to
- * load and what models to serve.
+ * Basic classification server. This server watches a Zookeeper cluster to
+ * determine what models to load and what models to serve.
  * <p/>
  * The structure of data in ZK is as follows
  * <p/>
+ * 
  * <pre>
  * /model-service/
  *   current-servers/        Contains one file per live server.
@@ -69,187 +70,203 @@ import java.util.TimerTask;
  * </pre>
  */
 public class Server {
-  public static final String ZK_BASE = "/model-service";
-  public static final String ZK_CURRENT_SERVERS = ZK_BASE + "/current-servers";
-  public static final String ZK_MODEL = ZK_BASE + "/model-to-serve";
+	public static final String ZK_BASE = "/model-service";
+	public static final String ZK_CURRENT_SERVERS = ZK_BASE
+			+ "/current-servers";
+	public static final String ZK_MODEL = ZK_BASE + "/model-to-serve";
 
-  private final TServer server;
-  private final Logger log = LoggerFactory.getLogger(this.getClass());
+	private final TServer server;
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+	private Timer timer;
 
-  private Timer timer;
-    
+	private ZooKeeper zk;
 
-  private ZooKeeper zk;
+	private ServerWatcher modelWatcher = new ServerWatcher();
 
-  private ServerWatcher modelWatcher = new ServerWatcher();
+	public Server(int port) throws TTransportException, IOException,
+			InterruptedException, KeeperException {
+		zk = new ZooKeeper("localhost", 2181, new Watcher() {
+			@Override
+			public void process(WatchedEvent watchedEvent) {
+				// ignore
+			}
+		});
 
-  public Server(int port) throws TTransportException, IOException, InterruptedException, KeeperException {
-    zk = new ZooKeeper("localhost", 2181, new Watcher() {
-      @Override
-      public void process(WatchedEvent watchedEvent) {
-        // ignore
-      }
-    });
+		if (zk.exists(ZK_BASE, null) == null) {
+			log.warn("Creating " + ZK_BASE);
+			zk.create(ZK_BASE, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE,
+					CreateMode.PERSISTENT);
+		}
+		if (zk.exists(ZK_CURRENT_SERVERS, null) == null) {
+			log.warn("Creating " + ZK_CURRENT_SERVERS);
+			zk.create(ZK_CURRENT_SERVERS, new byte[0],
+					ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+		}
+		zk.close();
 
-    if (zk.exists(ZK_BASE, null) == null) {
-      log.warn("Creating " + ZK_BASE);
-      zk.create(ZK_BASE, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-    }
-    if (zk.exists(ZK_CURRENT_SERVERS, null) == null) {
-      log.warn("Creating " + ZK_CURRENT_SERVERS);
-      zk.create(ZK_CURRENT_SERVERS, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-    }
-    zk.close();
+		Ops modelHandler = new Ops();
+		modelWatcher.setModelHandler(modelHandler);
 
-    Ops modelHandler = new Ops();
-    modelWatcher.setModelHandler(modelHandler);
+		// schedule a retry every thirty seconds in case we can't reset the
+		// watch
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				modelWatcher.process(null);
+			}
+		}, 0, 3000);
 
-    // schedule a retry every thirty seconds in case we can't reset the watch
-    timer = new Timer();
-    timer.scheduleAtFixedRate(new TimerTask() {
-      @Override
-      public void run() {
-        modelWatcher.process(null);
-      }
-    }, 0, 3000);
+		try {
+			TServerSocket socket = new TServerSocket(port);
+			Classifier.Processor processor = new Classifier.Processor(
+					modelHandler);
 
-    try {
-      TServerSocket socket = new TServerSocket(port);
-      Classifier.Processor processor = new Classifier.Processor(modelHandler);
+			TProtocolFactory protocol = new TBinaryProtocol.Factory(true, true);
+			server = new TThreadPoolServer(
+					new TThreadPoolServer.Args(socket).processor(processor));
 
-      TProtocolFactory protocol = new TBinaryProtocol.Factory(true, true);
-      server = new TThreadPoolServer(new TThreadPoolServer.Args(socket).processor(processor));
+			log.warn("Starting server on port {}", port);
+			server.serve();
+		} finally {
+			timer.cancel();
+			modelWatcher.close();
+		}
+	}
 
-      log.warn("Starting server on port {}", port);
-      server.serve();
-    } finally {
-      timer.cancel();
-      modelWatcher.close();
-    }
-  }
+	public void close() throws InterruptedException {
+		log.warn("Exiting");
+		server.stop();
+		timer.cancel();
+		zk.close();
+	}
 
-  public void close() throws InterruptedException {
-    log.warn("Exiting");
-    server.stop();
-    timer.cancel();
-    zk.close();
-  }
+	public static void main(String[] args) throws IOException,
+			TTransportException, InterruptedException, KeeperException {
+		new Server(7908);
+	}
 
-  public static void main(String[] args) throws IOException, TTransportException, InterruptedException, KeeperException {
-    new Server(7908);
-  }
+	private static class ServerWatcher implements Watcher {
+		private final Logger log = LoggerFactory.getLogger(this.getClass());
 
-  private static class ServerWatcher implements Watcher {
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+		private Ops modelHandler;
 
-    private Ops modelHandler;
+		private String currentUrl = null;
+		private int version;
 
-    private String currentUrl = null;
-    private int version;
+		private ZooKeeper zk = null;
+		private String hostname;
 
-    private ZooKeeper zk = null;
-    private String hostname;
+		private ServerWatcher() {
+			hostname = null;
+			try {
+				hostname = InetAddress.getLocalHost().getHostName();
+			} catch (UnknownHostException e) {
+				// continue with null hostname
+			}
+			if (hostname == null) {
+				log.error("Must have hostname ... exiting");
+				System.exit(1);
+			}
+		}
 
-    private ServerWatcher() {
-      hostname = null;
-      try {
-        hostname = InetAddress.getLocalHost().getHostName();
-      } catch (UnknownHostException e) {
-        // continue with null hostname
-      }
-      if (hostname == null) {
-        log.error("Must have hostname ... exiting");
-        System.exit(1);
-      }
-    }
+		/**
+		 * Loads or reloads the model by looking at ZK to get the model URL,
+		 * then loads that URL to get the serialized model.
+		 * 
+		 * @param watchedEvent
+		 *            Ignored.
+		 */
+		@Override
+		public void process(WatchedEvent watchedEvent) {
+			if (zk == null) {
+				try {
+					zk = new ZooKeeper("localhost", 2181, null);
+				} catch (IOException e) {
+					zk = null;
+					return;
+				}
+			}
 
-    /**
-     * Loads or reloads the model by looking at ZK to get the model URL, then loads that
-     * URL to get the serialized model.
-     * @param watchedEvent  Ignored.
-     */
-    @Override
-    public void process(WatchedEvent watchedEvent) {
-      if (zk == null) {
-        try {
-          zk = new ZooKeeper("localhost", 2181, null);
-        } catch (IOException e) {
-          zk = null;
-          return;
-        }
-      }
+			String url = null;
+			try {
+				// get new URL
+				Stat stat = new Stat();
+				byte[] urlAsBytes = zk.getData(ZK_MODEL, this, stat);
+				int latestVersion = stat.getVersion();
 
+				url = new String(urlAsBytes, Charsets.UTF_8);
 
-      String url = null;
-      try {
-        // get new URL
-        Stat stat = new Stat();
-        byte[] urlAsBytes = zk.getData(ZK_MODEL, this, stat);
-        int latestVersion = stat.getVersion();
+				// check for change
+				URL modelUrl = new URL(url);
+				boolean needUpdate = false;
+				if (currentUrl == null || latestVersion != version) {
+					log.warn("Loading model from " + modelUrl);
 
-        url = new String(urlAsBytes, Charsets.UTF_8);
+					AbstractVectorClassifier model = ModelSerializer
+							.readBinary(modelUrl.openStream(),
+									OnlineLogisticRegression.class);
 
-        // check for change
-        URL modelUrl = new URL(url);
-        boolean needUpdate = false;
-        if (currentUrl == null || latestVersion != version) {
-          log.warn("Loading model from " + modelUrl);
+					modelHandler.setModel(model);
+					currentUrl = url;
+					version = latestVersion;
+					log.info("done loading version " + version);
+					needUpdate = true;
+				}
 
-          AbstractVectorClassifier model = ModelSerializer.readBinary(modelUrl.openStream(), OnlineLogisticRegression.class);
+				// update status file so clients find us
+				String statusFile = ZK_CURRENT_SERVERS + "/" + hostname;
+				// Tell ZK what model we loaded. We try to do this often because
+				// we might have previously
+				// updated a lingering ephemeral file belonging to a previous
+				// incarnation. After
+				// a short time, that ephemeral may disappear and we would need
+				// to restore it
+				try {
+					zk.create(statusFile,
+							modelUrl.toString().getBytes(Charsets.UTF_8),
+							ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+					log.info("created server file {}", statusFile);
+				} catch (KeeperException.NodeExistsException e) {
+					if (needUpdate) {
+						zk.setData(statusFile,
+								modelUrl.toString().getBytes(Charsets.UTF_8),
+								-1);
+						log.info("updated server file {}", statusFile);
+					}
+				} catch (KeeperException e) {
+					log.error("Couldn't write server status file");
+				}
 
-          modelHandler.setModel(model);
-          currentUrl = url;
-          version = latestVersion;
-          log.info("done loading version " + version);
-          needUpdate = true;
-        }
+				return;
+			} catch (KeeperException.NoNodeException e) {
+				// if no such data on ZK, log it and continue.
+				log.error("Could not find model URL in ZK file: " + ZK_MODEL, e);
+				return;
+			} catch (KeeperException.SessionExpiredException e) {
+				log.error("Session expired", e);
+				zk = null;
+			} catch (KeeperException e) {
+				log.error("Failed to load model due to ZK exception", e);
+			} catch (InterruptedException e) {
+				log.error("Operation interrupted should never happen", e);
+			} catch (IOException e) {
+				log.error("Failed to load model from " + url, e);
+			}
 
-        // update status file so clients find us
-        String statusFile = ZK_CURRENT_SERVERS + "/" + hostname;
-        // Tell ZK what model we loaded.  We try to do this often because we might have previously
-        // updated a lingering ephemeral file belonging to a previous incarnation.  After
-        // a short time, that ephemeral may disappear and we would need to restore it
-        try {
-          zk.create(statusFile, modelUrl.toString().getBytes(Charsets.UTF_8), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
-          log.info("created server file {}", statusFile);
-        } catch (KeeperException.NodeExistsException e) {
-          if (needUpdate) {
-            zk.setData(statusFile, modelUrl.toString().getBytes(Charsets.UTF_8), -1);
-            log.info("updated server file {}", statusFile);
-          }
-        } catch (KeeperException e) {
-          log.error("Couldn't write server status file");
-        }
+			// only get here on error
+			log.warn("Clearing current URL due to error");
+			currentUrl = null;
+			version = -1;
+		}
 
-        return;
-      } catch (KeeperException.NoNodeException e) {
-        // if no such data on ZK, log it and continue.
-        log.error("Could not find model URL in ZK file: " + ZK_MODEL, e);
-        return;
-      } catch (KeeperException.SessionExpiredException e) {
-        log.error("Session expired", e);
-        zk = null;
-      } catch (KeeperException e) {
-        log.error("Failed to load model due to ZK exception", e);
-      } catch (InterruptedException e) {
-        log.error("Operation interrupted should never happen", e);
-      } catch (IOException e) {
-        log.error("Failed to load model from " + url, e);
-      }
+		public void setModelHandler(Ops modelHandler) {
+			this.modelHandler = modelHandler;
+		}
 
-      // only get here on error
-      log.warn("Clearing current URL due to error");
-      currentUrl = null;
-      version = -1;
-    }
-
-    public void setModelHandler(Ops modelHandler) {
-      this.modelHandler = modelHandler;
-    }
-
-    public void close() throws InterruptedException {
-      zk.close();
-    }
-  }
+		public void close() throws InterruptedException {
+			zk.close();
+		}
+	}
 }
