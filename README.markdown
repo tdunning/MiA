@@ -42,6 +42,23 @@ If you'll use mahout with non-ASCII data, then don't forget to specify
 `-Dfile.encoding=UTF-8` (or other encoding), so Java will use correct encoding for
 input/output.
 
+# Examples for Chapter 5 #
+
+To deploy recommender as web service you need to do following:
+ * copy `ratings.dat` and `gender.dat` files from data set into `src/main/resources`
+   directory;
+ * make package with `mvn package` command;
+ * copy `target/mia-0.1.jar` into `taste-web/lib/` directory in Mahout's source code tree;
+ * change into  `taste-web/` directory in Mahout's source code tree;
+ * edit `recommender.properties` file and set property `recommender.class` to value
+   `mia.recommender.ch05.LibimsetiRecommender`;
+ * run `mvn package` to create `mahout-taste-webapp-0.5.war` 
+ 
+Resulting `.war` file could be deployed to Tomcat or other container, but you can also use
+built-in Jetty, and run `mvn jetty:run-war` command to start the web-enabled recommender
+services on port 8080 on your local machine.  Then follow instructions from book to
+experiment with recommender.
+
 # Examples for Chapter 16 #
 
 Execution of examples for chapter 16 requires installing of additional software as
