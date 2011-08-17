@@ -17,6 +17,7 @@ you can use macports to install it, and it will placed into `/opt/local/bin/thri
 name `profile-buildthrift-linux`.
 
 Compiled jars are stored in the `target` directory.  There are several files created:
+
 * `mia-0.1.jar` contains only code for examples;
 * `mia-0.1-jar-with-dependencies.jar` contains examples plus all dependencies;
 * `mia-0.1-job.jar` contains examples plus all dependencies, excluding Hadoop -- it
@@ -45,6 +46,7 @@ input/output.
 # Examples for Chapter 5 #
 
 To deploy recommender as web service you need to do following:
+
 * copy `ratings.dat` and `gender.dat` files from data set into `src/main/resources` directory;
 * make package with `mvn package` command;
 * copy `target/mia-0.1.jar` into `taste-web/lib/` directory in Mahout's source code tree;
