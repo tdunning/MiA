@@ -17,9 +17,9 @@ you can use macports to install it, and it will placed into `/opt/local/bin/thri
 name `profile-buildthrift-linux`.
 
 Compiled jars are stored in the `target` directory.  There are several files created:
- * `mia-0.1.jar` contains only code for examples;
- * `mia-0.1-jar-with-dependencies.jar` contains examples plus all dependencies;
- * `mia-0.1-job.jar` contains examples plus all dependencies, excluding Hadoop -- it
+* `mia-0.1.jar` contains only code for examples;
+* `mia-0.1-jar-with-dependencies.jar` contains examples plus all dependencies;
+* `mia-0.1-job.jar` contains examples plus all dependencies, excluding Hadoop -- it
 should be used for Hadoop jobs.
 
 For some examples you will need Apache Mahout distribution.  You can grab latest release
@@ -45,14 +45,13 @@ input/output.
 # Examples for Chapter 5 #
 
 To deploy recommender as web service you need to do following:
- * copy `ratings.dat` and `gender.dat` files from data set into `src/main/resources`
-   directory;
- * make package with `mvn package` command;
- * copy `target/mia-0.1.jar` into `taste-web/lib/` directory in Mahout's source code tree;
- * change into  `taste-web/` directory in Mahout's source code tree;
- * edit `recommender.properties` file and set property `recommender.class` to value
-   `mia.recommender.ch05.LibimsetiRecommender`;
- * run `mvn package` to create `mahout-taste-webapp-0.5.war` 
+* copy `ratings.dat` and `gender.dat` files from data set into `src/main/resources` directory;
+* make package with `mvn package` command;
+* copy `target/mia-0.1.jar` into `taste-web/lib/` directory in Mahout's source code tree;
+* change into  `taste-web/` directory in Mahout's source code tree;
+* edit `recommender.properties` file and set property `recommender.class` to value
+  `mia.recommender.ch05.LibimsetiRecommender`;
+* run `mvn package` to create `mahout-taste-webapp-0.5.war` 
  
 Resulting `.war` file could be deployed to Tomcat or other container, but you can also use
 built-in Jetty, and run `mvn jetty:run-war` command to start the web-enabled recommender
