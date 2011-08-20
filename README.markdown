@@ -60,6 +60,14 @@ built-in Jetty, and run `mvn jetty:run-war` command to start the web-enabled rec
 services on port 8080 on your local machine.  Then follow instructions from book to
 experiment with recommender.
 
+# Examples for Chapters 14 & 15 #
+
+Code for chapters 14 & 15 in this repository is more proof of concept - it was greatly
+simplified to show main approaches.  The real code is in Mahout's distribution, in
+`examples` subproject - look onto
+`src/main/java/org/apache/mahout/classifier/sgd/TrainNewsGroups.java` and other examples
+from this project.
+
 # Examples for Chapter 16 #
 
 Execution of examples for chapter 16 requires installing of additional software as
