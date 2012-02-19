@@ -11,7 +11,7 @@
   <!-- TODO: add licensing, contact information, etc. -->
 
   <properties>
-    <mahout.version>0.5</mahout.version>
+    <mahout.version>0.6</mahout.version>
     <mahout.groupid>org.apache.mahout</mahout.groupid>
   </properties>
 
@@ -200,11 +200,6 @@
     </dependency>
     <dependency>
       <groupId>${mahout.groupid}</groupId>
-      <artifactId>mahout-utils</artifactId>
-      <version>${mahout.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${mahout.groupid}</groupId>
       <artifactId>mahout-examples</artifactId>
       <version>${mahout.version}</version>
     </dependency>
@@ -224,9 +219,9 @@
       <version>1.5.11</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.hadoop</groupId>
+      <groupId>org.apache.zookeeper</groupId>
       <artifactId>zookeeper</artifactId>
-      <version>3.3.1</version>
+      <version>3.3.4</version>
     </dependency>
     <dependency>
       <groupId>org.twitter4j</groupId>

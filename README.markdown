@@ -1,6 +1,8 @@
 Source code for 'Mahout in Action' book
 ==========
 
+This version was updated to work with Mahout 0.6.
+
 # Installation #
 
 To work with source code you need to have [Apache Maven](http://maven.apache.org/)

@@ -5,6 +5,8 @@
 
 package mia.clustering.ch09;
 
+import java.util.List;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -16,6 +18,7 @@ import org.apache.mahout.clustering.WeightedVectorWritable;
 import org.apache.mahout.clustering.canopy.CanopyDriver;
 import org.apache.mahout.clustering.kmeans.KMeansDriver;
 import org.apache.mahout.common.HadoopUtil;
+import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
 import org.apache.mahout.common.distance.TanimotoDistanceMeasure;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
@@ -55,11 +58,15 @@ public class NewsKMeansClustering {
         .asSubclass(Analyzer.class), tokenizedPath, conf);
     
     DictionaryVectorizer.createTermFrequencyVectors(tokenizedPath,
-      new Path(outputDir), conf, minSupport, maxNGramSize, minLLRValue, 2, true, reduceTasks,
+      new Path(outputDir), DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, 
+      conf, minSupport, maxNGramSize, minLLRValue, 2, true, reduceTasks,
       chunkSize, sequentialAccessOutput, false);
+    Pair<Long[], List<Path>> dfData = TFIDFConverter.calculateDF(
+    		new Path(outputDir, DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
+    	    new Path(outputDir), conf, chunkSize);   
     TFIDFConverter.processTfIdf(
       new Path(outputDir , DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER),
-      new Path(outputDir), conf, chunkSize, minDf,
+      new Path(outputDir), conf, dfData, minDf,
       maxDFPercent, norm, true, sequentialAccessOutput, false, reduceTasks);
     Path vectorsFolder = new Path(outputDir, "tfidf-vectors");
     Path canopyCentroids = new Path(outputDir , "canopy-centroids");

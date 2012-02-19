@@ -7,6 +7,7 @@ import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
+import org.apache.mahout.math.function.Functions;
 
 public class VectorReducer extends
     Reducer<Text,VectorWritable,Text,VectorWritable> {
@@ -22,7 +23,7 @@ public class VectorReducer extends
       if (vector == null) {
         vector = partialVector.get().like();
       }
-      partialVector.get().addTo(vector);
+      partialVector.get().assign(vector, Functions.PLUS);
     }
     NamedVector namedVector = new NamedVector(vector, tag.toString());
     writer.set(namedVector);
