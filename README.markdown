@@ -1,6 +1,10 @@
 Source code for 'Mahout in Action' book
 ==========
 
+This source code matches to listings from book - they were tested with Mahout 0.5.  If you
+want to experiment with new features from Mahout 0.6, then you need to use the
+mahout-0.6 branch in this repository.
+
 # Installation #
 
 To work with source code you need to have [Apache Maven](http://maven.apache.org/)
