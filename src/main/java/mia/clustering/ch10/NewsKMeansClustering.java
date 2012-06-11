@@ -37,7 +37,6 @@ public class NewsKMeansClustering {
     boolean sequentialAccessOutput = true;
     
     String inputDir = "reuters-seqfiles";
-    File inputDirFile = new File(inputDir);
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);
 
@@ -67,7 +66,7 @@ public class NewsKMeansClustering {
     RandomSeedGenerator.buildRandom(conf, vectorsFolder, centroids, 20,
       new CosineDistanceMeasure());
     KMeansDriver.run(conf, vectorsFolder, centroids, clusterOutput,
-      new CosineDistanceMeasure(), 0.01, 20, true, false);
+      new CosineDistanceMeasure(), 0.01, 20, true, 0, false);
     
     SequenceFile.Reader reader = new SequenceFile.Reader(fs,
         new Path(clusterOutput, Cluster.CLUSTERED_POINTS_DIR

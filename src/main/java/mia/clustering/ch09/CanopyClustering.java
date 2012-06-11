@@ -10,7 +10,7 @@ import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.mahout.clustering.canopy.Canopy;
 import org.apache.mahout.clustering.canopy.CanopyClusterer;
-import org.apache.mahout.clustering.kmeans.Cluster;
+import org.apache.mahout.clustering.kmeans.Kluster;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
@@ -35,10 +35,10 @@ public class CanopyClustering {
     System.out.println(points.size());
     reader.close();
     List<Canopy> canopies = CanopyClusterer.createCanopies(points, new CosineDistanceMeasure(), 0.8, 0.7);
-    List<Cluster> clusters = new ArrayList<Cluster>();
+    List<Kluster> clusters = new ArrayList<Kluster>();
     System.out.println(canopies.size());
     for (Canopy canopy : canopies) {
-      clusters.add(new Cluster(canopy.getCenter(), canopy.getId(), new CosineDistanceMeasure()));
+      clusters.add(new Kluster(canopy.getCenter(), canopy.getId(), new CosineDistanceMeasure()));
     }
   }
 }

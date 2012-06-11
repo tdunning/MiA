@@ -14,7 +14,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.mahout.clustering.Cluster;
-import org.apache.mahout.clustering.WeightedVectorWritable;
+import org.apache.mahout.clustering.classify.WeightedVectorWritable;
 import org.apache.mahout.clustering.canopy.CanopyDriver;
 import org.apache.mahout.clustering.fuzzykmeans.FuzzyKMeansDriver;
 import org.apache.mahout.common.HadoopUtil;
@@ -43,14 +43,7 @@ public class NewsFuzzyKMeansClustering {
     
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);
-    /*
-    SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf,
-        new Path(inputDir, "documents.seq"), Text.class, Text.class);
-    for (Document d : Database) {
-      writer.append(new Text(d.getID()), new Text(d.contents()));
-    }
-    writer.close();*/
-     
+
     String outputDir = "newsClusters";
     HadoopUtil.delete(conf, new Path(outputDir));
     
@@ -76,7 +69,7 @@ public class NewsFuzzyKMeansClustering {
     String clusterOutput = outputDir + "/clusters/";
     
     CanopyDriver.run(conf, new Path(vectorsFolder), new Path(canopyCentroids),
-      new ManhattanDistanceMeasure(), 3000.0, 2000.0, false, false);
+      new ManhattanDistanceMeasure(), 3000.0, 2000.0, false, 0.0, false);
     
     FuzzyKMeansDriver.run(conf, new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0"), new Path(clusterOutput),
       new TanimotoDistanceMeasure(), 0.01, 20, 2.0f, true, true, 0.0, false);

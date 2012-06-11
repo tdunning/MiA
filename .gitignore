@@ -12,5 +12,7 @@
 20news-bydate-train/
 /twitter_seqfiles/
 /tweets.txt
-
 /.settings/org.eclipse.core.resources.prefs
+/input/
+/reuters-vectors/
+*.log
