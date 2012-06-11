@@ -2,8 +2,8 @@ Source code for 'Mahout in Action' book
 ==========
 
 This source code matches to listings from book - they were tested with Mahout 0.5.  If you
-want to experiment with new features from Mahout 0.6, then you need to use the
-mahout-0.6 branch in this repository.
+want to experiment with new features from other Mahout versions, then you need to use
+corresponding `mahout-<mahout version>` branch in this repository.
 
 # Installation #
 
