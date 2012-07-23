@@ -5,7 +5,7 @@
   <artifactId>mia</artifactId>
   <groupId>com.manning</groupId>
   <name>Mahout in Action Examples</name>
-  <version>0.5</version>
+  <version>0.6</version>
   <description>Examples for Mahout in Action book</description>
   <packaging>jar</packaging>
   <!-- TODO: add licensing, contact information, etc. -->
