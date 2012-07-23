@@ -150,9 +150,9 @@
                     </copy>
                   </tasks>
                 </configuration>
-                <goals>
+                <!--                <goals>
                   <goal>run</goal>
-                </goals>
+                </goals>-->
               </execution>
             </executions>
           </plugin>
@@ -193,9 +193,9 @@
                     </copy>
                   </tasks>
                 </configuration>
-                <goals>
+                <!--                <goals>
                   <goal>run</goal>
-                </goals>
+                </goals>-->
               </execution>
             </executions>
           </plugin>
