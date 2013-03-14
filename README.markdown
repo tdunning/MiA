@@ -1,7 +1,7 @@
 Source code for 'Mahout in Action' book
 ==========
 
-This version was updated to work with Mahout 0.6.
+This version was updated to work with Mahout 0.7.
 
 # Installation #
 
