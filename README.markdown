@@ -41,7 +41,7 @@ To work with examples it's better to use your favorite Java IDE, although you ca
 Maven to run some examples from command line using `mvn exec:java` command. For example,
 to run `IREvaluatorIntro` example from chapter 2, you can use following command:
 
-    mvn exec:java -Dexec.mainClass="mia.recommender.ch02.IREvaluatorIntro" -Dexec.args="src"
+    mvn exec:java -Dexec.mainClass="mia.recommender.ch02.IREvaluatorIntro" -Dexec.args="src/main/java/mia/recommender/ch02/intro.csv"
 
 If you'll use mahout with non-ASCII data, then don't forget to specify
 `-Dfile.encoding=UTF-8` (or other encoding), so Java will use correct encoding for

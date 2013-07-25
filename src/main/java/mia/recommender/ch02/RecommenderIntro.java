@@ -17,8 +17,16 @@ class RecommenderIntro {
   }
 
   public static void main(String[] args) throws Exception {
-
-    DataModel model = new FileDataModel(new File("intro.csv"));
+	  File modelFile = null;
+	  if (args.length > 0)
+		  modelFile = new File(args[0]);
+	  if(modelFile == null || !modelFile.exists())
+		  modelFile = new File("intro.csv");
+	  if(!modelFile.exists()) {
+		  System.err.println("Please, specify name of file, or put file 'input.csv' into current directory!");
+		  System.exit(1);
+	  }
+	  DataModel model = new FileDataModel(modelFile);
 
     UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
     UserNeighborhood neighborhood =
