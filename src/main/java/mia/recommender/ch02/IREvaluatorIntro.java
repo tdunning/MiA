@@ -23,8 +23,17 @@ class IREvaluatorIntro {
   }
 
   public static void main(String[] args) throws Exception {
-    RandomUtils.useTestSeed();    
-    DataModel model = new FileDataModel(new File("intro.csv"));
+    RandomUtils.useTestSeed();
+	File modelFile = null;
+	if (args.length > 0)
+		modelFile = new File(args[0]);
+	if(modelFile == null || !modelFile.exists())
+		modelFile = new File("intro.csv");
+	if(!modelFile.exists()) {
+		System.err.println("Please, specify name of file, or put file 'input.csv' into current directory!");
+		System.exit(1);
+	}
+    DataModel model = new FileDataModel(modelFile);
 
     RecommenderIRStatsEvaluator evaluator =
       new GenericRecommenderIRStatsEvaluator();
