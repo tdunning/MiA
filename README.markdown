@@ -3,6 +3,19 @@ Source code for 'Mahout in Action' book
 
 This version was updated to work with Mahout 0.9.
 
+# Changes between version
+
+**TODO**: describe all removed classes that were used in examples: SlopeOne, KNN, etc. See
+  [MAHOUT-1250](https://issues.apache.org/jira/browse/MAHOUT-1250) for more details
+  
+Removed:
+ * mia.clustering.ch09.DirichletExample
+ * mia.recommender.ch04.ClusterBasedRecommender
+ * mia.recommender.ch04.KnnBasedRecommender
+ * mia.recommender.ch04.SlopeOneJDBC
+ * mia.recommender.ch04.SlopeOneNoWeighting
+ * mia.recommender.ch05.LimitedMemoryDiffStorage
+
 # Installation #
 
 To work with source code you need to have [Apache Maven](http://maven.apache.org/)

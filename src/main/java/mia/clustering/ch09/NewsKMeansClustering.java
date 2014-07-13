@@ -70,8 +70,7 @@ public class NewsKMeansClustering {
     CanopyDriver.run(vectorsFolder, canopyCentroids,
       new EuclideanDistanceMeasure(), 250, 120, false, 0.0, false);
     KMeansDriver.run(conf, vectorsFolder, new Path(canopyCentroids, "clusters-0-final"),
-      clusterOutput, new TanimotoDistanceMeasure(), 0.01,
-      20, true, 0.0, false);
+      clusterOutput, 0.01, 20, true, 0.0, false);
     
     SequenceFile.Reader reader = new SequenceFile.Reader(fs,
         new Path(clusterOutput + Cluster.CLUSTERED_POINTS_DIR + "/part-00000"), conf);
@@ -83,5 +82,6 @@ public class NewsKMeansClustering {
        + value.toString());
     }
     reader.close();
+    analyzer.close();
   }
 }

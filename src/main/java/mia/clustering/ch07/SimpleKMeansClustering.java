@@ -71,8 +71,7 @@ public class SimpleKMeansClustering {
     HadoopUtil.delete(conf, output);
     
     KMeansDriver.run(conf, new Path("testdata/points"), new Path("testdata/clusters"),
-      output, new EuclideanDistanceMeasure(), 0.001, 10,
-      true, 0.0, false);
+      output, 0.001, 10, true, 0.0, false);
     
     SequenceFile.Reader reader = new SequenceFile.Reader(fs,
         new Path("output/" + Kluster.CLUSTERED_POINTS_DIR

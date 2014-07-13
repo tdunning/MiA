@@ -27,7 +27,7 @@ public class KMeansClustering {
 
 		Path clustersIn = new Path(output, "random-seeds");
 		RandomSeedGenerator.buildRandom(conf, samples, clustersIn, 3, measure);
-		KMeansDriver.run(samples, clustersIn, output, measure, 0.01, 10, true,
+		KMeansDriver.run(conf, samples, clustersIn, output, 0.01, 10, true,
 				0.0, true);
 
 		List<List<Cluster>> Clusters = ClusterHelper.readClusters(conf, output);

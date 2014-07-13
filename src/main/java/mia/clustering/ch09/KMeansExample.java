@@ -47,7 +47,7 @@ public class KMeansExample {
 		DistanceMeasure measure = new EuclideanDistanceMeasure();
 
 		RandomSeedGenerator.buildRandom(conf, samples, clustersIn, k, measure);
-		KMeansDriver.run(samples, clustersIn, output, measure, 0.01, 10, true,
+		KMeansDriver.run(conf, samples, clustersIn, output, 0.01, 10, true,
 				0.0, true);
 
 		List<List<Cluster>> Clusters = ClusterHelper.readClusters(conf, output);

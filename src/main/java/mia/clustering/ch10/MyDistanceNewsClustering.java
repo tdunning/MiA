@@ -14,7 +14,7 @@ import org.apache.mahout.clustering.kmeans.RandomSeedGenerator;
 import org.apache.mahout.common.HadoopUtil;
 import org.apache.mahout.common.Pair;
 import org.apache.mahout.common.distance.CosineDistanceMeasure;
-import org.apache.mahout.vectorizer.DefaultAnalyzer;
+import org.apache.mahout.common.lucene.AnalyzerUtils;
 import org.apache.mahout.vectorizer.DictionaryVectorizer;
 import org.apache.mahout.vectorizer.DocumentProcessor;
 import org.apache.mahout.vectorizer.tfidf.TFIDFConverter;
@@ -34,23 +34,14 @@ public class MyDistanceNewsClustering {
     boolean sequentialAccessOutput = true;
     
     String inputDir = "inputDir";
-    File inputDirFile = new File(inputDir);
-    if (!inputDirFile.exists()) {
-      // inputDirFile.mkdir();
-    }
     Configuration conf = new Configuration();
     FileSystem fs = FileSystem.get(conf);
-    /*
-     * SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, new Path(inputDir, "documents.seq"),
-     * Text.class, Text.class); for (Document d : Database) { writer.append(new Text(d.getID()), new
-     * Text(d.contents())); } writer.close();
-     */
 
     String outputDir = "myDistanceNewsClusters";
     HadoopUtil.delete(conf, new Path(outputDir));
     Path tokenizedPath = new Path(outputDir
                            ,DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-    DefaultAnalyzer analyzer = new DefaultAnalyzer();
+    Analyzer analyzer = AnalyzerUtils.createAnalyzer("org.apache.lucene.analysis.standard.StandardAnalyzer");
     DocumentProcessor.tokenizeDocuments(new Path(inputDir), analyzer
         .getClass().asSubclass(Analyzer.class), tokenizedPath, conf);
     
@@ -73,10 +64,10 @@ public class MyDistanceNewsClustering {
     RandomSeedGenerator.buildRandom(conf, vectorsFolder, centroids, 20,
       new CosineDistanceMeasure());
     KMeansDriver.run(conf, vectorsFolder, centroids, clusterOutput,
-      new MyDistanceMeasure(), 0.01, 20, true, 0, false);
+      0.01, 20, true, 0, false);
 
     SequenceFile.Reader reader = new SequenceFile.Reader(fs,
         new Path(clusterOutput, Cluster.CLUSTERED_POINTS_DIR + "/part-m-00000"), conf);
-    
+    reader.close();
   }
 }

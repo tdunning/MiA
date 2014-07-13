@@ -66,10 +66,12 @@ public class NewsKMeansClustering {
     RandomSeedGenerator.buildRandom(conf, vectorsFolder, centroids, 20,
       new CosineDistanceMeasure());
     KMeansDriver.run(conf, vectorsFolder, centroids, clusterOutput,
-      new CosineDistanceMeasure(), 0.01, 20, true, 0, false);
+      0.01, 20, true, 0, false);
     
     SequenceFile.Reader reader = new SequenceFile.Reader(fs,
         new Path(clusterOutput, Cluster.CLUSTERED_POINTS_DIR
                                 + "/part-m-00000"), conf);
+    analyzer.close();
+    reader.close();
   }
 }

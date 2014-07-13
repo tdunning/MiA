@@ -40,7 +40,7 @@ public class AggregateAndRecommendReducer
 		Configuration jobConf = context.getConfiguration();
 		recommendationsPerUser = jobConf.getInt(NUM_RECOMMENDATIONS,
 				DEFAULT_NUM_RECOMMENDATIONS);
-		indexItemIDMap = TasteHadoopUtils.readItemIDIndexMap(
+		indexItemIDMap = TasteHadoopUtils.readIDIndexMap(
 				jobConf.get(ITEMID_INDEX_PATH), jobConf);
 	}
 

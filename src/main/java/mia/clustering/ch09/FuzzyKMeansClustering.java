@@ -30,7 +30,7 @@ public class FuzzyKMeansClustering {
 		DistanceMeasure measure = new CosineDistanceMeasure();
 
 		RandomSeedGenerator.buildRandom(conf, samples, clustersIn, 3, measure);
-		FuzzyKMeansDriver.run(samples, clustersIn, output, measure, 0.01, 10,
+		FuzzyKMeansDriver.run(conf, samples, clustersIn, output, 0.01, 10,
 				3, true, true, 0.0, true);
 
 		List<List<Cluster>> Clusters = ClusterHelper.readClusters(conf, output);

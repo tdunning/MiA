@@ -30,8 +30,8 @@ public class KMeansWithCanopyClustering {
 		CanopyDriver.run(conf, samples, canopyCentroids, new CosineDistanceMeasure(),
 				0.7, 0.5, false, 0, false);
 
-	    KMeansDriver.run(conf, new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"), clusterOutput,
-	    		new CosineDistanceMeasure(), 0.01, 20, true, 0.0, false);
+	    KMeansDriver.run(conf, new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0-final"), 
+	            clusterOutput, 0.01, 20, true, 0.0, false);
 		
 	    List<List<Cluster>> Clusters = ClusterHelper.readClusters(conf, clusterOutput);
 		for (Cluster cluster : Clusters.get(Clusters.size() - 1)) {

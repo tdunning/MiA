@@ -71,8 +71,8 @@ public class NewsFuzzyKMeansClustering {
     CanopyDriver.run(conf, new Path(vectorsFolder), new Path(canopyCentroids),
       new ManhattanDistanceMeasure(), 3000.0, 2000.0, false, 0.0, false);
     
-    FuzzyKMeansDriver.run(conf, new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0"), new Path(clusterOutput),
-      new TanimotoDistanceMeasure(), 0.01, 20, 2.0f, true, true, 0.0, false);
+    FuzzyKMeansDriver.run(conf, new Path(vectorsFolder), new Path(canopyCentroids, "clusters-0"), 
+            new Path(clusterOutput), 0.01, 20, 2.0f, true, true, 0.0, false);
     
     SequenceFile.Reader reader = new SequenceFile.Reader(fs, new Path(
       clusterOutput + Cluster.CLUSTERED_POINTS_DIR +"/part-m-00000"), conf);
@@ -84,5 +84,6 @@ public class NewsFuzzyKMeansClustering {
                          + value.getVector().asFormatString());
     }
     reader.close();
+    analyzer.close();
   }
 }
