@@ -59,7 +59,7 @@ public class AggregateAndRecommendReducer
 						.getInstance()));
 
 		Iterator<Vector.Element> recommendationVectorIterator = recommendationVector
-				.iterateNonZero();
+				.nonZeroes().iterator();
 		while (recommendationVectorIterator.hasNext()) {
 			Vector.Element element = recommendationVectorIterator.next();
 			int index = element.index();

@@ -18,10 +18,10 @@ public class UserVectorToCooccurrenceMapper extends
 
 	public void map(VarLongWritable userID, VectorWritable userVector,
 			Context context) throws IOException, InterruptedException {
-		Iterator<Vector.Element> it = userVector.get().iterateNonZero();
+		Iterator<Vector.Element> it = userVector.get().nonZeroes().iterator();
 		while (it.hasNext()) {
 			int index1 = it.next().index();
-			Iterator<Vector.Element> it2 = userVector.get().iterateNonZero();
+			Iterator<Vector.Element> it2 = userVector.get().nonZeroes().iterator();
 			while (it2.hasNext()) {
 				int index2 = it2.next().index();
 				context.write(new IntWritable(index1), new IntWritable(index2));

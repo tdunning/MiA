@@ -1,7 +1,7 @@
 Source code for 'Mahout in Action' book
 ==========
 
-This version was updated to work with Mahout 0.7.
+This version was updated to work with Mahout 0.9.
 
 # Installation #
 
@@ -20,9 +20,9 @@ name `profile-buildthrift-linux`.
 
 Compiled jars are stored in the `target` directory.  There are several files created:
 
-* `mia-0.1.jar` contains only code for examples;
-* `mia-0.1-jar-with-dependencies.jar` contains examples plus all dependencies;
-* `mia-0.1-job.jar` contains examples plus all dependencies, excluding Hadoop -- it
+* `mia-0.9.jar` contains only code for examples;
+* `mia-0.9-jar-with-dependencies.jar` contains examples plus all dependencies;
+* `mia-0.9-job.jar` contains examples plus all dependencies, excluding Hadoop -- it
 should be used for Hadoop jobs.
 
 For some examples you will need Apache Mahout distribution.  You can grab latest release
@@ -51,7 +51,7 @@ To deploy recommender as web service you need to do following:
 
 * copy `ratings.dat` and `gender.dat` files from data set into `src/main/resources` directory;
 * make package with `mvn package` command;
-* copy `target/mia-0.1.jar` into `taste-web/lib/` directory in Mahout's source code tree;
+* copy `target/mia-0.9.jar` into `taste-web/lib/` directory in Mahout's source code tree;
 * change into  `taste-web/` directory in Mahout's source code tree;
 * edit `recommender.properties` file and set property `recommender.class` to value
   `mia.recommender.ch05.LibimsetiRecommender`;
@@ -73,7 +73,7 @@ from this project.
 # Examples for Chapter 16 #
 
 Execution of examples for chapter 16 requires installing of additional software as
-described below.  Actual code is packaged into `mia-0.1-jar-with-dependencies.jar` that is
+described below.  Actual code is packaged into `mia-0.9-jar-with-dependencies.jar` that is
 build as described above.
 
 ## Install, configure and start Zookeeper ##
@@ -90,7 +90,7 @@ Download and run [Apache Zookeeper](http://www.apache.org/dyn/closer.cgi/zookeep
 
 In a separate window, go to the directory where you extracted this software and start the server
 
-    java -cp target/mia-0.1-jar-with-dependencies.jar  mia.classifier.ch16.server.Server
+    java -cp target/mia-0.9-jar-with-dependencies.jar  mia.classifier.ch16.server.Server
 
 or
 
@@ -109,7 +109,7 @@ To build a model for the 20 news groups data, download the data:
 
 Then run the training program:
 
-    java -mx1000m -cp target/mia-0.1-jar-with-dependencies.jar mia.classifier.ch16.train.TrainNewsGroups 20news-bydate-train/
+    java -mx1000m -cp target/mia-0.9-jar-with-dependencies.jar mia.classifier.ch16.train.TrainNewsGroups 20news-bydate-train/
 
 or
 
@@ -170,7 +170,7 @@ and reload the model.
 
 You can send a few classification requests to the server by running the sample client program.
 
-    java -cp target/mia-0.1-jar-with-dependencies.jar mia.classifier.ch16.client.Client
+    java -cp target/mia-0.9-jar-with-dependencies.jar mia.classifier.ch16.client.Client
 
 or
 

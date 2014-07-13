@@ -10,7 +10,7 @@ import java.io.StringReader;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.tokenattributes.TermAttribute;
+import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.util.Version;
 import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.SequentialAccessSparseVector;
@@ -26,12 +26,12 @@ public class TokenizingAndVectorizingText {
 
 		StringReader in = new StringReader("text to magically vectorize");
 		TokenStream ts = analyzer.tokenStream("body", in);
-		TermAttribute termAtt = ts.addAttribute(TermAttribute.class);
+		CharTermAttribute termAtt = ts.addAttribute(CharTermAttribute.class);
 
 		Vector v1 = new RandomAccessSparseVector(100);                   
 		while (ts.incrementToken()) {
-		  char[] termBuffer = termAtt.termBuffer();
-		  int termLen = termAtt.termLength();
+		  char[] termBuffer = termAtt.buffer();
+		  int termLen = termBuffer.length;
 		  String w = new String(termBuffer, 0, termLen);                 
 		  encoder.addToVector(w, 1, v1);                                 
 		}
