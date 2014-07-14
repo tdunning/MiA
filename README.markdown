@@ -102,7 +102,7 @@ build as described above.
 
 Download and run [Apache Zookeeper](http://www.apache.org/dyn/closer.cgi/zookeeper/)
 
-    wget http://newverhost.com/pub//zookeeper/zookeeper-3.3.6/zookeeper-3.3.3.tar.gz
+    wget http://download.nextag.com/apache/zookeeper/zookeeper-3.3.6/zookeeper-3.3.6.tar.gz
     tar zxvf zookeeper-3.3.6.tar.gz
     cp ./zookeeper-3.3.6/conf/zoo_sample.cfg ./zookeeper-3.3.3/conf/zoo.cfg
     # change dataDir parameter in ./zookeeper-3.3.6/conf/zoo.cfg
