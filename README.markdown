@@ -102,11 +102,11 @@ build as described above.
 
 Download and run [Apache Zookeeper](http://www.apache.org/dyn/closer.cgi/zookeeper/)
 
-    wget http://newverhost.com/pub//zookeeper/zookeeper-3.3.3/zookeeper-3.3.3.tar.gz
-    tar zxvf zookeeper-3.3.3.tar.gz
-    cp ./zookeeper-3.3.3/conf/zoo_sample.cfg ./zookeeper-3.3.3/conf/zoo.cfg
-    # change dataDir parameter in ./zookeeper-3.3.3/conf/zoo.cfg
-    sudo ./zookeeper-3.3.3/bin/zkServer.sh start
+    wget http://newverhost.com/pub//zookeeper/zookeeper-3.3.6/zookeeper-3.3.3.tar.gz
+    tar zxvf zookeeper-3.3.6.tar.gz
+    cp ./zookeeper-3.3.6/conf/zoo_sample.cfg ./zookeeper-3.3.3/conf/zoo.cfg
+    # change dataDir parameter in ./zookeeper-3.3.6/conf/zoo.cfg
+    sudo ./zookeeper-3.3.6/bin/zkServer.sh start
 
 ## Start the server with no model yet ##
 
@@ -138,14 +138,14 @@ or
      MAVEN_OPTS="-Xmx1024m" mvn exec:java -Dexec.mainClass="mia.classifier.ch16.train.TrainNewsGroups" -Dexec.args="20news-bydate-train/"
 
 This will produce lots of output.  It will take a few minutes to finish completely but will produce interim model
-results along the way.  Once you see a file called /tmp/news-group-3000.model you will be ready to tell the server
-to load that model.  The final result should give you the most accuracy.  It is stored in /tmp/news-group.model
+results along the way.  Once you see a file called `/tmp/news-group-3000.model` you will be ready to tell the server
+to load that model.  The final result should give you the most accuracy.  It is stored in `/tmp/news-group.model`
 
 5. Tell the server about the new model via Zookeeper
 
 Run the Zookeeper command line interface:
 
-    ./zookeeper-3.3.3/bin/zkCli.sh
+    ./zookeeper-3.3.6/bin/zkCli.sh
         ... log output lines ...
     [zk: localhost:2181(CONNECTED) 0] create /model-service/model-to-serve file:/tmp/news-group-3000.model
     Created /model-service/model-to-serve
