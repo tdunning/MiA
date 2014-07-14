@@ -3,12 +3,11 @@ Source code for 'Mahout in Action' book
 
 This version was updated to work with Mahout 0.9.
 
-# Changes between version
+# Changes between versions
 
-**TODO**: describe all removed classes that were used in examples: SlopeOne, KNN, etc. See
-  [MAHOUT-1250](https://issues.apache.org/jira/browse/MAHOUT-1250) for more details
-  
-Removed:
+In Mahout 0.8 some implementations were removed (see
+[MAHOUT-1250](https://issues.apache.org/jira/browse/MAHOUT-1250) for details), so examples
+from book don't work anymore & were deleted:
  * mia.clustering.ch09.DirichletExample
  * mia.recommender.ch04.ClusterBasedRecommender
  * mia.recommender.ch04.KnnBasedRecommender
@@ -64,11 +63,21 @@ To deploy recommender as web service you need to do following:
 
 * copy `ratings.dat` and `gender.dat` files from data set into `src/main/resources` directory;
 * make package with `mvn package` command;
-* copy `target/mia-0.9.jar` into `taste-web/lib/` directory in Mahout's source code tree;
-* change into  `taste-web/` directory in Mahout's source code tree;
-* edit `recommender.properties` file and set property `recommender.class` to value
+* install package with `mvn install` command;
+* clone the example of recommender service using the `git clone
+  https://github.com/alexott/mahout-recommender-webservice.git` command
+* switch to the `mahout-recommender-webservice` directory
+* edit the `pom.xml` and add following snippet into `dependencies` section:
+
+        <dependency>
+          <groupId>com.manning</groupId>
+          <artifactId>mia</artifactId>
+          <version>0.9</version>
+        </dependency>
+
+* edit the `src/main/webapp/WEB-INF/web.xml` file and set property `recommender-class` to value
   `mia.recommender.ch05.LibimsetiRecommender`;
-* run `mvn package` to create `mahout-taste-webapp-0.5.war` 
+* run `mvn package` to create `mahout_webservice.war` 
  
 Resulting `.war` file could be deployed to Tomcat or other container, but you can also use
 built-in Jetty, and run `mvn jetty:run-war` command to start the web-enabled recommender

@@ -16,3 +16,6 @@
 /input/
 /reuters-vectors/
 *.log
+/ratings.dat
+/ua.base
+/gender.dat
