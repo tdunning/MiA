@@ -4,32 +4,25 @@
  */
 package mia.clustering.ch12;
 
-import java.io.IOException;
 import java.io.Reader;
-import java.io.StringReader;
 
 import org.apache.commons.codec.language.DoubleMetaphone;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.en.PorterStemFilter;
+import org.apache.lucene.analysis.Tokenizer;
 import org.apache.lucene.analysis.core.StopFilter;
-import org.apache.lucene.analysis.core.WhitespaceTokenizer;
+import org.apache.lucene.analysis.en.PorterStemFilter;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.standard.StandardTokenizer;
 import org.apache.lucene.util.Version;
-import org.apache.lucene.analysis.miscellaneous.LengthFilter;
-import org.apache.lucene.analysis.core.LowerCaseFilter;
-import org.apache.lucene.analysis.standard.StandardFilter;
-import org.apache.lucene.analysis.Analyzer.TokenStreamComponents;
-import org.apache.lucene.analysis.Tokenizer;
 
 public class TwitterAnalyzer extends Analyzer {
   private DoubleMetaphone filter = new DoubleMetaphone();
 
 	@Override
 	protected TokenStreamComponents createComponents(String fieldName, Reader reader) {
-		Tokenizer source = new StandardTokenizer(Version.LUCENE_CURRENT, reader);
-		TokenStream result = new StopFilter(Version.LUCENE_CURRENT, source, StandardAnalyzer.STOP_WORDS_SET);
+		Tokenizer source = new StandardTokenizer(Version.LUCENE_46, reader);
+		TokenStream result = new StopFilter(Version.LUCENE_46, source, StandardAnalyzer.STOP_WORDS_SET);
 		result = new PorterStemFilter(result);
 
 		//....

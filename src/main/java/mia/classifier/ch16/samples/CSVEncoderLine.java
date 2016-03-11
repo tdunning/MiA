@@ -25,15 +25,16 @@ public class CSVEncoderLine {
 		}
 		long t0 = System.currentTimeMillis();
 		Vector v = new DenseVector(1000);
-		BufferedReader in = new BufferedReader(new FileReader(args[1]));
-		String line = in.readLine();
-		while (line != null) {
-			v.assign(0);
-			Line x = new Line(line);
-			for (int i = 0; i < FIELDS; i++) {
-				encoder[i].addToVector((byte[]) null, x.getDouble(i), v);
+		try (BufferedReader in = new BufferedReader(new FileReader(args[1]));) {
+			String line = in.readLine();
+			while (line != null) {
+				v.assign(0);
+				Line x = new Line(line);
+				for (int i = 0; i < FIELDS; i++) {
+					encoder[i].addToVector((byte[]) null, x.getDouble(i), v);
+				}
+				line = in.readLine();
 			}
-			line = in.readLine();
 		}
 		System.out.printf("\nElapsed time = %.3f s\n",
 				(System.currentTimeMillis() - t0) / 1000.0);

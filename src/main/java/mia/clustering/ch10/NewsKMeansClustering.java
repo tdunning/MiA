@@ -4,7 +4,6 @@
  */
 package mia.clustering.ch10;
 
-import java.io.File;
 import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;

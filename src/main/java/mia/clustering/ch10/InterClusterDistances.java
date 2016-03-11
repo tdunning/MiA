@@ -25,18 +25,19 @@ public class InterClusterDistances {
     
     List<Cluster> clusters = new ArrayList<Cluster>();
     
-    SequenceFile.Reader reader = new SequenceFile.Reader(
-        fs, path, conf);
-    Writable key = (Writable) reader.getKeyClass()
-        .newInstance();
-    Writable value = (Writable) reader.getValueClass()
-        .newInstance();
-    
-    while (reader.next(key, value)) {
-      Cluster cluster = (Cluster) value;
-      clusters.add(cluster);
-      value = (Writable) reader.getValueClass()
-          .newInstance();
+    try (SequenceFile.Reader reader = new SequenceFile.Reader(
+        fs, path, conf);) {
+	    Writable key = (Writable) reader.getKeyClass()
+	        .newInstance();
+	    Writable value = (Writable) reader.getValueClass()
+	        .newInstance();
+	    
+	    while (reader.next(key, value)) {
+	      Cluster cluster = (Cluster) value;
+	      clusters.add(cluster);
+	      value = (Writable) reader.getValueClass()
+	          .newInstance();
+	    }
     }
     
     DistanceMeasure measure = new CosineDistanceMeasure();
