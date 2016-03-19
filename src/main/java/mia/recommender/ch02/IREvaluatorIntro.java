@@ -25,15 +25,19 @@ class IREvaluatorIntro {
   public static void main(String[] args) throws Exception {
     RandomUtils.useTestSeed();
 	File modelFile = null;
-	if (args.length > 0)
+	if (args.length > 0) {
 		modelFile = new File(args[0]);
-	if(modelFile == null || !modelFile.exists())
-		modelFile = new File("intro.csv");
+	}
+	if(modelFile == null || !modelFile.exists()) {
+		System.out.println("No input file has been given, default file will be used!");
+		//modelFile = new File("src/main/java/mia/recommender/ch02/intro.csv");
+		modelFile = new File("src/main/java/mia/recommender/ch02/ua.base");
+	}
 	if(!modelFile.exists()) {
-		System.err.println("Please, specify name of file, or put file 'input.csv' into current directory!");
+		System.err.println("Please, specify name of file!");
 		System.exit(1);
 	}
-    DataModel model = new FileDataModel(modelFile);
+	DataModel model = new FileDataModel(modelFile);
 
     RecommenderIRStatsEvaluator evaluator =
       new GenericRecommenderIRStatsEvaluator();

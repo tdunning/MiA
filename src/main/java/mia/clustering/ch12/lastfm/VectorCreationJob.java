@@ -39,21 +39,21 @@ public class VectorCreationJob {
     int i = 0;
     for (FileStatus fileStatus : outputFiles) {
       Path path = fileStatus.getPath();
-      SequenceFile.Reader reader = new SequenceFile.Reader(fs, path,
-          conf);
-      SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, new Path(path.toString()+"-dict"),
-        Text.class, IntWritable.class);
-      Text key = new Text();
-      IntWritable value = new IntWritable();
-      while (reader.next(key, value)) {
-        dictionary.put(key.toString(), Integer.valueOf(i++));
-        writer.append(key, new IntWritable(i-1));
+      try (SequenceFile.Reader reader = new SequenceFile.Reader(fs, path, conf);
+	      SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, new Path(path.toString()+"-dict"),
+	        Text.class, IntWritable.class);) {
+	      Text key = new Text();
+	      IntWritable value = new IntWritable();
+	      while (reader.next(key, value)) {
+	        dictionary.put(key.toString(), Integer.valueOf(i++));
+	        writer.append(key, new IntWritable(i-1));
+	      }
       }
-      writer.close();
     }
-    DefaultStringifier<Map<String,Integer>> mapStringifier = new DefaultStringifier<Map<String,Integer>>(
-        conf, GenericsUtil.getClass(dictionary));
-    conf.set("dictionary", mapStringifier.toString(dictionary));
+    try (DefaultStringifier<Map<String,Integer>> mapStringifier = new DefaultStringifier<Map<String,Integer>>(
+        conf, GenericsUtil.getClass(dictionary));) {
+    	conf.set("dictionary", mapStringifier.toString(dictionary));
+    }
     
     Job job = new Job(conf, "Generating dataset based from input"
                             + input);

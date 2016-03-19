@@ -44,10 +44,11 @@ public class VectorMapper extends
                                        InterruptedException {
     super.setup(context);
     Configuration conf = context.getConfiguration();
-    DefaultStringifier<Map<String,Integer>> mapStringifier 
+    try (DefaultStringifier<Map<String,Integer>> mapStringifier 
         = new DefaultStringifier<Map<String,Integer>>(
-              conf, GenericsUtil.getClass(dictionary));
-    dictionary = mapStringifier.fromString(conf.get("dictionary"));
+              conf, GenericsUtil.getClass(dictionary));) {
+    	dictionary = mapStringifier.fromString(conf.get("dictionary"));
+    }
     
     splitter = Pattern.compile("<sep>");
     writer = new VectorWritable();

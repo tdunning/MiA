@@ -38,9 +38,10 @@ public class ReutersToSparseVectors {
     HadoopUtil.delete(conf, new Path(outputDir));
     Path tokenizedPath = new Path(outputDir,
         DocumentProcessor.TOKENIZED_DOCUMENT_OUTPUT_FOLDER);
-    MyAnalyzer analyzer = new MyAnalyzer();
-    DocumentProcessor.tokenizeDocuments(new Path(inputDir), analyzer.getClass()
-        .asSubclass(Analyzer.class), tokenizedPath, conf);
+    try (MyAnalyzer analyzer = new MyAnalyzer();) {
+	    DocumentProcessor.tokenizeDocuments(new Path(inputDir), analyzer.getClass()
+	        .asSubclass(Analyzer.class), tokenizedPath, conf);
+    }
     
     DictionaryVectorizer.createTermFrequencyVectors(tokenizedPath,
       new Path(outputDir), DictionaryVectorizer.DOCUMENT_VECTOR_OUTPUT_FOLDER, 
